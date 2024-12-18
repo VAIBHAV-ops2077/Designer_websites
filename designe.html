@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Abstract Art</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(45deg, #0a0a2e, #1a1a3a);
+            perspective: 1000px;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 800px;
+            height: 800px;
+            transform-style: preserve-3d;
+            animation: rotate 20s infinite linear;
+        }
+
+        .shape {
+            position: absolute;
+            transform-style: preserve-3d;
+            animation: float 4s infinite ease-in-out;
+        }
+
+        .cube {
+            width: 100px;
+            height: 100px;
+            transform-style: preserve-3d;
+            position: absolute;
+            animation: spin 8s infinite linear;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(5px);
+            transition: all 0.3s;
+        }
+
+        .pyramid {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 86.6px solid rgba(255, 255, 255, 0.1);
+            position: absolute;
+            transform-style: preserve-3d;
+        }
+
+        .sphere {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1));
+            border-radius: 50%;
+            position: absolute;
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes rotate {
+            from { transform: rotateX(0) rotateY(0); }
+            to { transform: rotateX(360deg) rotateY(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes spin {
+            from { transform: rotateX(0) rotateY(0) rotateZ(0); }
+            to { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+
+        .glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="shape" style="transform: translateZ(200px);">
+            <div class="cube">
+                <div class="cube-face" style="transform: translateZ(50px);"></div>
+                <div class="cube-face" style="transform: translateZ(-50px) rotateY(180deg);"></div>
+                <div class="cube-face" style="transform: translateX(50px) rotateY(90deg);"></div>
+                <div class="cube-face" style="transform: translateX(-50px) rotateY(-90deg);"></div>
+                <div class="cube-face" style="transform: translateY(50px) rotateX(90deg);"></div>
+                <div class="cube-face" style="transform: translateY(-50px) rotateX(-90deg);"></div>
+            </div>
+        </div>
+        
+        <div class="shape" style="transform: translate3d(150px, -100px, 100px);">
+            <div class="pyramid"></div>
+        </div>
+
+        <div class="shape" style="transform: translate3d(-150px, 100px, -100px);">
+            <div class="sphere"></div>
+        </div>
+    </div>
+
+    <div class="glow"></div>
+    <div class="particles" id="particles"></div>
+
+    <script>
+        // Create background particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 100; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.width = Math.random() * 3 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
